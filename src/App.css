@@ -36,3 +36,19 @@
     transform: rotate(360deg);
   }
 }
+
+.app-container {
+  display: flex;
+  height: 100vh;
+}
+
+.chat-list {
+  width: 25%;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.message-list {
+  width: 75%;
+  padding: 10px;
+}
