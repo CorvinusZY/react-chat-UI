@@ -25,9 +25,13 @@ function App() {
   const [password, setPassword] = useState(null);
   const [wsserver, setWsserver] = useState(null);
   const [friends, setFriends] = useState(null);
+  // track the msg history for current dialogue
   const [msgHistory, setMsgHistory] = useState([]);
+  // track the current friend in dialogue window
   const [selectedFriend, setSelectedFriend] = useState(null);
   const selectedFriendRef = useRef(null);
+  // track the current friends' unread statuses
+  const [unreadCount, setUnreadCount] = useState({});
 
   const handleMsgSend = (msg) => {
     const msg_to_send = {
@@ -58,6 +62,14 @@ function App() {
     setPassword(password);
     setWsserver(ws);
     setFriends(friends);
+
+    const current_unread_counts = friends.reduce((acc, curr) => {
+      acc[curr] = 0; // Set each element as a key with a value of 0
+      return acc;
+    }, {});
+    setUnreadCount(current_unread_counts);
+    console.log(current_unread_counts);
+
     ws.onmessage = (event) => {
       const parsed_data = JSON.parse(event.data);
       console.log("received msg", parsed_data);
@@ -75,6 +87,12 @@ function App() {
             position: "single",
           },
         ]);
+      } else {
+        console.log('receive msg for non-current window');
+        setUnreadCount((prevCounts) => ({
+          ...prevCounts,
+          [parsed_data.sender]: (prevCounts[parsed_data.sender] || 0) + 1,
+        }));
       }
     };
   };
@@ -104,6 +122,10 @@ function App() {
     setSelectedFriend(friendname);
     selectedFriendRef.current = friendname;
     handleMsgHistoryPull(username, friendname);
+    setUnreadCount((prevCounts) => ({
+      ...prevCounts,
+      [friendname]: 0,
+    }));
   };
 
   if (!username) {
@@ -127,6 +149,7 @@ function App() {
               <Conversation
                 //key={1}
                 name={friend}
+                unreadCnt={unreadCount[friend] || 0}
                 onClick={() => handleConversationClick(friend)}
               >
                 <Avatar
