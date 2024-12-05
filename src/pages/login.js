@@ -36,23 +36,21 @@ function LoginPage({ onLoginSuccess }) {
             isAuthenticated = false;
             setError("Unauthorized. Please check username and password.");
             resolve(false); // Resolve with false if unauthorized
-          } else{
+          } else {
             resolve(true);
           }
         };
         // Add a timeout to avoid indefinite waiting if no message is received
-          setTimeout(() => {
-            if (isAuthenticated) {
-              resolve(true); // Resolve with true if no issue after timeout
-            } else {
-              resolve(false); // Resolve with false if no valid response
-            }
-          }, 3000); // Timeout after 3 seconds
-        
+        setTimeout(() => {
+          if (isAuthenticated) {
+            resolve(true); // Resolve with true if no issue after timeout
+          } else {
+            resolve(false); // Resolve with false if no valid response
+          }
+        }, 3000); // Timeout after 3 seconds
       });
 
-      
-      if (isAuthenticated==true ) {   
+      if (isAuthenticated === true) {
         const response = await fetch(`/friends?from_username=${username}`);
         console.log("response received");
         if (response.status !== 200) {
@@ -62,9 +60,13 @@ function LoginPage({ onLoginSuccess }) {
         const friends = await response.json();
         console.log(friends.to_usernames);
         // If connection is successful, call the success callback
-        onLoginSuccess(username, ws, friends.to_usernames);
-
-      }  
+        onLoginSuccess(
+          username,
+          ws,
+          friends.to_usernames,
+          friends.to_user_pictures,
+        );
+      }
     };
 
     ws.onerror = () => {

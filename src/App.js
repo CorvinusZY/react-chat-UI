@@ -25,6 +25,7 @@ function App() {
   const [password, setPassword] = useState(null);
   const [wsserver, setWsserver] = useState(null);
   const [friends, setFriends] = useState(null);
+  const [friendsPicture, setFriendsPicture] = useState(null);
   // track the msg history for current dialogue
   const [msgHistory, setMsgHistory] = useState([]);
   // track the current friend in dialogue window
@@ -57,11 +58,12 @@ function App() {
     }
   };
 
-  const handleLoginSuccess = (user, ws, friends) => {
+  const handleLoginSuccess = (user, ws, friends, friendsPicture) => {
     setUsername(user);
     setPassword(password);
     setWsserver(ws);
     setFriends(friends);
+    setFriendsPicture(friendsPicture);
 
     const current_unread_counts = friends.reduce((acc, curr) => {
       acc[curr] = 0; // Set each element as a key with a value of 0
@@ -88,7 +90,7 @@ function App() {
           },
         ]);
       } else {
-        console.log('receive msg for non-current window');
+        console.log("receive msg for non-current window");
         setUnreadCount((prevCounts) => ({
           ...prevCounts,
           [parsed_data.sender]: (prevCounts[parsed_data.sender] || 0) + 1,
@@ -145,7 +147,7 @@ function App() {
         {/* <Search placeholder="Search..." /> */}
         <ConversationList>
           <ConversationList>
-            {friends.map((friend) => (
+            {friends.map((friend, index) => (
               <Conversation
                 //key={1}
                 name={friend}
@@ -153,7 +155,7 @@ function App() {
                 onClick={() => handleConversationClick(friend)}
               >
                 <Avatar
-                  src="https://chatscope.io/storybook/react/assets/lilly-aj6lnGPk.svg"
+                  src={friendsPicture[index]}
                   name={friend}
                   status="available"
                 />
