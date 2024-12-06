@@ -1,54 +1,74 @@
 .App {
-  text-align: center;
+    text-align: center;
 }
 
 .App-logo {
-  height: 40vmin;
-  pointer-events: none;
+    height: 40vmin;
+    pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+    .App-logo {
+        animation: App-logo-spin infinite 20s linear;
+    }
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
 }
 
 .App-link {
-  color: #61dafb;
+    color: #61dafb;
 }
 
 @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .app-container {
-  display: flex;
-  height: 100vh;
+    display: flex;
+    height: 100vh;
 }
 
 .chat-list {
-  width: 25%;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+    width: 25%;
+    padding: 10px;
+    border-right: 1px solid #ddd;
 }
 
 .message-list {
-  width: 75%;
-  padding: 10px;
+    width: 75%;
+    padding: 10px;
+}
+
+.user-avatar-name {
+    display: flex;
+    align-items: center; /* Centers content vertically */
+    justify-content: center; /* Centers content horizontally */
+    gap: 10px; /* Adds space between avatar and username */
+    padding: 10px; /* Optional: Adds padding around the content */
+}
+
+.conversation-header {
+    display: flex;
+    align-items: center;
+    background: linear-gradient(to right, #f8f9fa, #ffffff);
+    padding: 10px 15px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.online-users {
+    color: black;
 }

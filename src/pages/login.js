@@ -62,6 +62,7 @@ function LoginPage({ onLoginSuccess }) {
         // If connection is successful, call the success callback
         onLoginSuccess(
           username,
+          friends.user_picture,
           ws,
           friends.to_usernames,
           friends.to_user_pictures,

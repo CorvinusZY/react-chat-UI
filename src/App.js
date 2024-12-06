@@ -19,9 +19,11 @@ import {
 import styles from "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import { messagesData, conversations } from "./TestData";
 import LoginPage from "./pages/login";
+import "./App.css";
 
 function App() {
   const [username, setUsername] = useState(null);
+  const [userPicture, setUserPicture] = useState(null);
   const [password, setPassword] = useState(null);
   const [wsserver, setWsserver] = useState(null);
   const [friends, setFriends] = useState(null);
@@ -58,8 +60,15 @@ function App() {
     }
   };
 
-  const handleLoginSuccess = (user, ws, friends, friendsPicture) => {
+  const handleLoginSuccess = (
+    user,
+    user_picture,
+    ws,
+    friends,
+    friendsPicture,
+  ) => {
     setUsername(user);
+    setUserPicture(user_picture);
     setPassword(password);
     setWsserver(ws);
     setFriends(friends);
@@ -145,6 +154,13 @@ function App() {
 
       <Sidebar position="left">
         {/* <Search placeholder="Search..." /> */}
+        <div className="conversation-header">
+          <div className="user-avatar-name">
+            <Avatar src={userPicture} name={username} />
+            <h4 className="user-name">{username}</h4>
+          </div>
+        </div>
+        <h3 className="online-users">Online Users</h3>
         <ConversationList>
           <ConversationList>
             {friends.map((friend, index) => (
