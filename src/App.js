@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef } from 'react';
 import {
   MainContainer,
   ChatContainer,
@@ -15,11 +15,11 @@ import {
   Search,
   ConversationList,
   EllipsisButton,
-} from "@chatscope/chat-ui-kit-react";
-import styles from "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
-import { messagesData, conversations } from "./TestData";
-import LoginPage from "./pages/login";
-import "./App.css";
+} from '@chatscope/chat-ui-kit-react';
+import styles from '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
+import { messagesData, conversations } from './TestData';
+import LoginPage from './pages/login';
+import './App.css';
 
 function App() {
   const [username, setUsername] = useState(null);
@@ -40,7 +40,7 @@ function App() {
     const msg_to_send = {
       sender: username,
       receiver: selectedFriend,
-      message_type: "direct",
+      message_type: 'direct',
       content: msg,
     };
 
@@ -51,10 +51,10 @@ function App() {
       setMsgHistory((prevMessages) => [
         ...prevMessages,
         {
-          direction: "outgoing",
+          direction: 'outgoing',
           message: msg,
           sender: username,
-          position: "single",
+          position: 'single',
         },
       ]);
     }
@@ -65,7 +65,7 @@ function App() {
     user_picture,
     ws,
     friends,
-    friendsPicture,
+    friendsPicture
   ) => {
     setUsername(user);
     setUserPicture(user_picture);
@@ -83,23 +83,23 @@ function App() {
 
     ws.onmessage = (event) => {
       const parsed_data = JSON.parse(event.data);
-      console.log("received msg", parsed_data);
-      console.log("sender", parsed_data.sender);
-      console.log("selectedFriend", selectedFriendRef.current);
+      console.log('received msg', parsed_data);
+      console.log('sender', parsed_data.sender);
+      console.log('selectedFriend', selectedFriendRef.current);
 
       // Update local state for the outgoing message
       if (parsed_data.sender === selectedFriendRef.current) {
         setMsgHistory((prevMessages) => [
           ...prevMessages,
           {
-            direction: "incoming",
+            direction: 'incoming',
             message: parsed_data.content,
             sender: parsed_data.sender,
-            position: "single",
+            position: 'single',
           },
         ]);
       } else {
-        console.log("receive msg for non-current window");
+        console.log('receive msg for non-current window');
         setUnreadCount((prevCounts) => ({
           ...prevCounts,
           [parsed_data.sender]: (prevCounts[parsed_data.sender] || 0) + 1,
@@ -110,9 +110,9 @@ function App() {
 
   const handleMsgHistoryPull = async (username, selectedFriend) => {
     const response = await fetch(
-      `/chat-history?username_a=${username}&username_b=${selectedFriend}`,
+      `/chat-history?username_a=${username}&username_b=${selectedFriend}`
     );
-    console.log("response received");
+    console.log('response received');
     if (response.status !== 200) {
       //setError('Failed to fetch friends');
       return;
@@ -120,10 +120,10 @@ function App() {
     const msgs = await response.json();
     console.log(msgs);
     const arrangedMsgs = await msgs.messages.map((rawMessage) => ({
-      direction: rawMessage.receiver === username ? "incoming" : "outgoing",
+      direction: rawMessage.receiver === username ? 'incoming' : 'outgoing',
       message: rawMessage.message,
-      position: "single", // This can be adjusted depending on the message order
-      sender: rawMessage.sender === username ? "You" : rawMessage.sender,
+      position: 'single', // This can be adjusted depending on the message order
+      sender: rawMessage.sender === username ? 'You' : rawMessage.sender,
     }));
     setMsgHistory(arrangedMsgs);
   };
@@ -147,20 +147,17 @@ function App() {
     <MainContainer
       responsive
       style={{
-        height: "600px",
+        height: '600px',
       }}
     >
       {/* Left Hand Side */}
 
-      <Sidebar position="left">
+      <Sidebar position="left" scrollable>
         {/* <Search placeholder="Search..." /> */}
-        <div className="conversation-header">
-          <div className="user-avatar-name">
-            <Avatar src={userPicture} name={username} />
-            <h4 className="user-name">{username}</h4>
-          </div>
-        </div>
-        <h3 className="online-users">Online Users</h3>
+        <ConversationHeader style={{ backgroundColor: '#fff' }}>
+          <Avatar src={userPicture} />
+          <ConversationHeader.Content>{username}</ConversationHeader.Content>
+        </ConversationHeader>
         <ConversationList>
           <ConversationList>
             {friends.map((friend, index) => (
@@ -203,7 +200,7 @@ function App() {
           />
         </ChatContainer>
       ) : (
-        <div style={{ padding: "20px" }}>
+        <div style={{ padding: '20px' }}>
           Select a conversation to start chatting.
         </div>
       )}
