@@ -2,6 +2,9 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Video Demo
+https://youtu.be/wlSNHgB19pU
+
 ## Testing
 
 First install dependencies by running:
