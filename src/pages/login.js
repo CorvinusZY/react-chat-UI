@@ -14,10 +14,11 @@ function LoginPage({ onLoginSuccess }) {
       setError('Password is required');
       return;
     }
+    const encode_password = btoa(password);
     setError('');
 
     const ws = new WebSocket(
-      `ws://127.0.0.1:3030/ws?name=${username}&password=${password}`
+      `ws://127.0.0.1:3030/ws?name=${username}&password=${encode_password}`
     );
 
     ws.onopen = async () => {
